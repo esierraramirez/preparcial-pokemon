@@ -64,3 +64,31 @@ def show_pokemon_by_id(id: int = Query(...)):
             return pokemon
     return {"message": "Pokemon not found"}
 
+# Create a endpoint to battle between two pokemons and return the winner, if the attack is the same, return for score winner
+@app.get("/battle/")
+def battle(pokemon1: str = Query(...), pokemon2: str = Query(...)):
+    p1 = None
+    p2 = None
+    for pokemon in pokemons:
+        if pokemon.name.lower() == pokemon1.lower():
+            p1 = pokemon
+        if pokemon.name.lower() == pokemon2.lower():
+            p2 = pokemon
+    if not p1 or not p2:
+        return {"message": "One or both Pokemon not found"}
+    
+    if p1.attack > p2.attack:
+        return {"winner": p1.name, "reason": "Higher attack power"}
+    elif p2.attack > p1.attack:
+        return {"winner": p2.name, "reason": "Higher attack power"}
+    else:
+        if p1.lives > p2.lives:
+            return {"winner": p1.name, "reason": "Higher lives"}
+        elif p2.lives > p1.lives:
+            return {"winner": p2.name, "reason": "Higher lives"}
+        else:
+            return {"message": "It's a tie!"}
+
+
+    
+    
