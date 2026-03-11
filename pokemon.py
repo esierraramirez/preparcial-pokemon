@@ -37,6 +37,24 @@ def read_pokemon_csv(file_path: str):
 
 pokemons = read_pokemon_csv('pokemon.csv')
 
+# Create a fuction to generate a CSV file randomly with 50 pokemons with random values for the parameters
+import random
+def generate_random_pokemon_csv(file_path: str, num_pokemons: int = 50):
+    types = ['Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Normal']
+    with open(file_path, mode='w', newline='') as file:
+        fieldnames = ['id', 'name', 'attack', 'lives', 'type']
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        for i in range(1, num_pokemons + 1):
+            pokemon = {
+                'id': i,
+                'name': f'Pokemon{i}',
+                'attack': random.randint(10, 100),
+                'lives': random.randint(1, 100),
+                'type': random.choice(types)
+            }
+            writer.writerow(pokemon)
+        
 # Create a endpoint to create a new Pokemon
 
 @app.get("/")
