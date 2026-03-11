@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from pydantic import BaseModel
 import csv
 
@@ -48,4 +48,11 @@ def home():
 def show_all_pokemon():
     return pokemons
 
+# Create a endpoint to show one pokemon by name with query parameters
+@app.get("/showpokemon/", response_model=Pokemon)
+def show_pokemon(name: str = Query(...)):
+    for pokemon in pokemons:
+        if pokemon.name.lower() == name.lower():
+            return pokemon
+    return {"message": "Pokemon not found"}
 
