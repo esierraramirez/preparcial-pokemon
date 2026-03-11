@@ -56,3 +56,11 @@ def show_pokemon(name: str = Query(...)):
             return pokemon
     return {"message": "Pokemon not found"}
 
+# Create a endpoint to show one pokemon by id with query parameters
+@app.get("/showpokemonbyid/", response_model=Pokemon)
+def show_pokemon_by_id(id: int = Query(...)):
+    for pokemon in pokemons:
+        if pokemon.id == id:
+            return pokemon
+    return {"message": "Pokemon not found"}
+
