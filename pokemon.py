@@ -89,6 +89,10 @@ def battle(pokemon1: str = Query(...), pokemon2: str = Query(...)):
         else:
             return {"message": "It's a tie!"}
 
+# Create a endpoint to order pokemons by a specific parameter return a list of pokemons ordered by the parameter
+@app.get("/orderpokemons/")
+def order_pokemons(parameter: str = Query(...)):
+    if parameter not in ['id', 'name', 'attack', 'lives', 'type']:
+        return {"message": "Invalid parameter"}
+    return sorted(pokemons, key=lambda x: getattr(x, parameter))
 
-    
-    
