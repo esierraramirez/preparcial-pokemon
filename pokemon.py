@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
 import csv
+import random
+import os
 
 app = FastAPI(title="Pokemon API Parcial", description="A simple API to manage Pokemon data", version="1.0.0")
 
@@ -35,10 +37,8 @@ def read_pokemon_csv(file_path: str):
             pokemon_list.append(pokemon)
     return pokemon_list    
 
-pokemons = read_pokemon_csv('pokemon.csv')
-
 # Create a fuction to generate a CSV file randomly with 50 pokemons with random values for the parameters
-import random
+
 def generate_random_pokemon_csv(file_path: str, num_pokemons: int = 50):
     types = ['Fire', 'Water', 'Grass', 'Electric', 'Psychic', 'Normal']
     with open(file_path, mode='w', newline='') as file:
@@ -54,6 +54,13 @@ def generate_random_pokemon_csv(file_path: str, num_pokemons: int = 50):
                 'type': random.choice(types)
             }
             writer.writerow(pokemon)
+
+# Generate the CSV file if it doesn't exist
+if not os.path.exists('pokemon.csv'):
+    generate_random_pokemon_csv('pokemon.csv', 50)
+
+# Load the pokemons from the CSV file
+pokemons = read_pokemon_csv('pokemon.csv')
         
 # Create a endpoint to create a new Pokemon
 
