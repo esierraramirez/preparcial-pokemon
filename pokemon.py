@@ -39,4 +39,13 @@ pokemons = read_pokemon_csv('pokemon.csv')
 
 # Create a endpoint to create a new Pokemon
 
+@app.get("/")
+def home():
+    return {"message": "Welcome to the Pokemon API!"}
+
+# Create a endpoint to show all pokemons with query parameters
+@app.get("/showallpokemons/", response_model=list[Pokemon])
+def show_all_pokemon():
+    return pokemons
+
 
